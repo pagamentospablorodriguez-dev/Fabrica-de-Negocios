@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { FormData } from '../types';
-import { Sparkles, TrendingUp, Clock, DollarSign, Package, Zap } from 'lucide-react';
+import { Sparkles, TrendingUp, Clock, DollarSign, Package, Zap, History } from 'lucide-react';
 import Footer from './Footer';
 
 interface FormularioEntradaProps {
   onSubmit: (data: FormData) => void;
+  onVerHistorico: () => void;
   loading: boolean;
 }
 
-export default function FormularioEntrada({ onSubmit, loading }: FormularioEntradaProps) {
+export default function FormularioEntrada({ onSubmit, onVerHistorico, loading }: FormularioEntradaProps) {
   const [formData, setFormData] = useState<FormData>({
     areaInteresse: '',
     tempoDisponivel: '',
@@ -43,8 +44,16 @@ export default function FormularioEntrada({ onSubmit, loading }: FormularioEntra
             </h1>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
               Transforme suas ideias em negócios lucrativos com o poder da IA.
-              Receba 10 ideias completas e prontas para lançar HOJE mesmo!
+              Gere ideias completas e prontas para lançar HOJE mesmo!
             </p>
+            
+            <button
+              onClick={onVerHistorico}
+              className="mt-6 inline-flex items-center text-luxury-gold hover:text-luxury-gold-light transition-colors"
+            >
+              <History className="w-5 h-5 mr-2" />
+              Ver ideias anteriores
+            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
@@ -53,14 +62,14 @@ export default function FormularioEntrada({ onSubmit, loading }: FormularioEntra
                 <TrendingUp className="w-6 h-6 text-luxury-gold" />
               </div>
               <h3 className="font-semibold text-white mb-2">Ideias Validadas</h3>
-              <p className="text-sm text-gray-400">10 negócios prontos com potencial comprovado de lucro</p>
+              <p className="text-sm text-gray-400">Negócios prontos com potencial comprovado de lucro</p>
             </div>
             <div className="bg-luxury-dark rounded-xl p-6 luxury-border luxury-shadow">
               <div className="w-12 h-12 bg-luxury-gold/10 rounded-lg flex items-center justify-center mb-4 border border-luxury-gold/20">
                 <Zap className="w-6 h-6 text-luxury-gold" />
               </div>
-              <h3 className="font-semibold text-white mb-2">Resultado Rápido</h3>
-              <p className="text-sm text-gray-400">Comece hoje e veja os primeiros resultados em dias</p>
+              <h3 className="font-semibold text-white mb-2">Ilimitadas</h3>
+              <p className="text-sm text-gray-400">Gere quantas ideias quiser até encontrar a perfeita</p>
             </div>
             <div className="bg-luxury-dark rounded-xl p-6 luxury-border luxury-shadow">
               <div className="w-12 h-12 bg-luxury-gold/10 rounded-lg flex items-center justify-center mb-4 border border-luxury-gold/20">
@@ -210,24 +219,24 @@ export default function FormularioEntrada({ onSubmit, loading }: FormularioEntra
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Gerando suas ideias milionárias...
+                  Gerando sua ideia milionária...
                 </>
               ) : (
                 <>
                   <Sparkles className="w-5 h-5 mr-2" />
-                  Gerar 10 Ideias de Negócios Agora!
+                  Gerar Ideia de Negócio Agora!
                 </>
               )}
             </button>
 
             <p className="text-center text-sm text-gray-500 mt-4">
-              Tempo estimado: 30-60 segundos para gerar suas ideias personalizadas
+              Tempo estimado: 20-30 segundos • Você pode gerar quantas ideias quiser
             </p>
           </form>
 
           <div className="mt-12 bg-luxury-dark rounded-xl p-8 luxury-border luxury-shadow">
             <h3 className="text-xl font-bold text-white mb-4">
-              O que você vai receber:
+              O que você vai receber em cada ideia:
             </h3>
             <ul className="space-y-3">
               {[
