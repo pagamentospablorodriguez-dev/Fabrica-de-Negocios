@@ -8,7 +8,7 @@ import Cadastro from './components/Cadastro';
 import Footer from './components/Footer';
 import { FormData, IdeiaNegocios } from './types';
 import { gerarIdeiasNegocio } from './services/openai';
-import { Bolt Database } from './lib/supabase';
+import { supabase } from './lib/supabase';
 import { AlertCircle } from 'lucide-react';
 
 function AppContent() {
