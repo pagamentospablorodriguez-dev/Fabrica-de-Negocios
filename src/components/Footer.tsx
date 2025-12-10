@@ -69,7 +69,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t luxury-border pt-8 text-center text-gray-400">
+        <div className="border-t pt-8 text-center text-gray-400">
           <p>&copy; {new Date().getFullYear()} Fábrica de Negócios. Todos os direitos reservados.</p>
         </div>
       </div>
