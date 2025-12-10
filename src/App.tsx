@@ -52,7 +52,7 @@ function AppContent() {
         setSessionId(novoSessionId);
       }
 
-      const { data: ideaSalva, error } = await Bolt Database
+      const { data: ideaSalva, error } = await supabase
         .from('business_ideas')
         .insert({
           user_id: user.id,
