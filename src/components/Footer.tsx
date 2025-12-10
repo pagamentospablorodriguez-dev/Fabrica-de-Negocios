@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <div className="flex items-center mb-4">
-              <img src="/fnl.png" alt="Logo" className="h-10 w-auto" />
+              <img src="/fnl.png" alt="Logo" className="h-44 w-auto" />
             </div>
             <p className="text-gray-400 leading-relaxed">
               Transformando ideias em negócios lucrativos com o poder da IA.
