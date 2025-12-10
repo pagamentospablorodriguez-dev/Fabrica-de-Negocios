@@ -1,4 +1,5 @@
 import { Sparkles, Zap, TrendingUp, Target } from 'lucide-react';
+import Footer from './Footer';
 
 export default function Loading() {
   return (
