@@ -6,7 +6,7 @@ export default function Loading() {
       <div className="max-w-2xl mx-auto px-4 text-center">
         <div className="relative mb-8">
           <div className="inline-flex items-center justify-center w-24 h-24 rounded-2xl luxury-shadow-lg animate-pulse">
-            <img src="/fnl.png" alt="Logo" className="h-20 w-auto" />
+            <img src="/fnl.png" alt="Logo" className="h-52 w-auto" />
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-32 h-32 border-4 border-luxury-gold/20 border-t-luxury-gold rounded-full animate-spin"></div>
