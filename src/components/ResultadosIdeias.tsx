@@ -45,7 +45,7 @@ export default function ResultadosIdeias({ ideias, onVoltar }: ResultadosIdeiasP
 
           <div className="text-center mb-12">
             <div className="flex justify-center mb-6">
-              <img src="/fnl.png" alt="Logo" className="h-52 w-auto luxury-shadow-lg" />
+              <img src="/fnl.png" alt="Logo" className="h-52 w-auto" />
             </div>
             <h1 className="text-5xl font-bold text-white mb-4">
               Suas 10 Ideias Milionárias Estão Prontas!
