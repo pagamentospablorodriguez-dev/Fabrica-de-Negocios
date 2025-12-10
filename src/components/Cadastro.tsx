@@ -65,7 +65,7 @@ export default function Cadastro({ onSwitchToLogin }: CadastroProps) {
         <div className="max-w-md w-full">
           <div className="text-center mb-12">
             <div className="flex justify-center mb-6">
-              <img src="/fnl.png" alt="Logo" className="h-20 w-auto luxury-shadow-lg" />
+              <img src="/fnl.png" alt="Fábrica de Negócios Logo" className="h-52 w-auto" />
             </div>
             <h1 className="text-3xl font-bold text-white mb-2">
               Comece seu jornada!
