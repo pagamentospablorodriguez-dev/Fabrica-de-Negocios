@@ -35,7 +35,7 @@ export default function Historico({ onVoltar, onVerIdeias }: HistoricoProps) {
         return;
       }
 
-      const { data, error } = await Bolt Database
+      const { data, error } = await supabase
         .from('business_ideas')
         .select('*')
         .eq('user_id', user.id)
