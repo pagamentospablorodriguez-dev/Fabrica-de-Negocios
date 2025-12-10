@@ -37,7 +37,7 @@ A **Fábrica de Negócios** é um SAAS que ajuda empreendedores a criar negócio
 Edite o arquivo `.env` e adicione sua chave da API da OpenAI:
 
 ```
-VITE_OPENAI_API_KEY=sua_chave_api_aqui
+
 ```
 
 Para obter sua chave da API:
@@ -65,7 +65,7 @@ Para fazer deploy no Netlify:
 
 1. Conecte seu repositório ao Netlify
 2. Configure as variáveis de ambiente:
-   - `VITE_OPENAI_API_KEY`
+   - `VITE_OPENAI_API_KEasYsas`
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_ANON_KEY`
 3. Comando de build: `npm run build`
