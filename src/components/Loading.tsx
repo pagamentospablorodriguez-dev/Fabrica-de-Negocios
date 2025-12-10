@@ -3,6 +3,7 @@ import Footer from './Footer';
 
 export default function Loading() {
   return (
+    <>
     <div className="min-h-screen bg-luxury-black flex items-center justify-center">
       <div className="max-w-2xl mx-auto px-4 text-center">
         <div className="relative mb-8">
@@ -60,8 +61,12 @@ export default function Loading() {
           animation: progress 25s ease-in-out;
         }
       `}</style>
-   <Footer />
+   
     </div>
-    
+
+<Footer />
+
+      </>
+      
   );
 }
