@@ -1,14 +1,34 @@
-import { FormData, IdeiaNegocios } from '../types';
+// netlify/functions/gerar-ideias.js
 
-const OPENAI_API_KEY = import.meta.env.A_OPENAI_API_KEY;
-const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
+// É preciso usar require('node-fetch') se estiver usando Node.js anterior ao 18. 
+// Para Netlify Functions recentes (Node 18+), o fetch nativo funciona. Vamos usar o fetch padrão.
 
-export async function gerarIdeiasNegocio(formData: FormData): Promise<IdeiaNegocios[]> {
-  if (!OPENAI_API_KEY || OPENAI_API_KEY === 'sua_chave_api_openai_aqui') {
-    throw new Error('Chave da API OpenAI não configurada. Por favor, configure VITE_OPENAI_API_KEY no arquivo .env');
-  }
+exports.handler = async (event, context) => {
+    // 1. Acessar a variável de ambiente SECRETA do Netlify
+    const OPENAI_API_KEY = process.env.A_OPENAI_API_KEY; 
+    const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
-  const prompt = `Você é um especialista em negócios e empreendedorismo. Com base nas informações abaixo, gere EXATAMENTE 10 ideias de negócios COMPLETAS e PRONTAS para lançar:
+    if (!OPENAI_API_KEY) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: 'Erro do Servidor: A chave da API OpenAI não foi encontrada. Verifique as variáveis de ambiente no Netlify.' })
+        };
+    }
+
+    // 2. Validar o método e extrair o corpo
+    if (event.httpMethod !== 'POST' || !event.body) {
+        return { statusCode: 400, body: 'Método não suportado ou corpo da requisição vazio.' };
+    }
+
+    let formData;
+    try {
+        formData = JSON.parse(event.body);
+    } catch (e) {
+        return { statusCode: 400, body: 'Formato JSON da requisição inválido.' };
+    }
+
+    // 3. Reconstruir o Prompt COMPLETO com base no formData recebido
+    const prompt = `Você é um especialista em negócios e empreendedorismo. Com base nas informações abaixo, gere EXATAMENTE 10 ideias de negócios COMPLETAS e PRONTAS para lançar:
 
 Área de Interesse: ${formData.areaInteresse}
 Tempo Disponível: ${formData.tempoDisponivel}
@@ -41,70 +61,74 @@ IMPORTANTE:
 
 Responda APENAS com um JSON válido no seguinte formato:
 {
-  "ideias": [
-    {
-      "nomeMarca": "...",
-      "promessa": "...",
-      "analiseViabilidade": "...",
-      "comoViralizar": "...",
-      "publicoAlvo": "...",
-      "estrategiaMarketing": "...",
-      "roadmapLancamento": "...",
-      "scriptAnuncios": "...",
-      "scriptConteudoOrganico": "...",
-      "promptBolt": "...",
-      "formasMonetizacao": "...",
-      "primeirosPassos": "...",
-      "metasFinanceiras": "..."
-    }
-  ]
+  "ideias": [
+    {
+      "nomeMarca": "...",
+      "promessa": "...",
+      "analiseViabilidade": "...",
+      "comoViralizar": "...",
+      "publicoAlvo": "...",
+      "estrategiaMarketing": "...",
+      "roadmapLancamento": "...",
+      "scriptAnuncios": "...",
+      "scriptConteudoOrganico": "...",
+      "promptBolt": "...",
+      "formasMonetizacao": "...",
+      "primeirosPassos": "...",
+      "metasFinanceiras": "..."
+    }
+  ]
 }`;
 
-  try {
-    const response = await fetch(OPENAI_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'system',
-            content: 'Você é um especialista em geração de ideias de negócios lucrativas. Sempre responda em português do Brasil com informações práticas e acionáveis.'
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        temperature: 0.8,
-        max_tokens: 16000,
-      }),
-    });
+    // 4. Fazer a requisição à API da OpenAI
+    try {
+        const response = await fetch(OPENAI_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENAI_API_KEY}`, // Usa a chave secreta aqui
+            },
+            body: JSON.stringify({
+                model: 'gpt-4o-mini',
+                messages: [
+                    { 
+                        role: 'system', 
+                        content: 'Você é um especialista em geração de ideias de negócios lucrativas. Sempre responda em português do Brasil com informações práticas e acionáveis.'
+                    },
+                    { 
+                        role: 'user', 
+                        content: prompt 
+                    }
+                ],
+                temperature: 0.8,
+                max_tokens: 16000,
+            }),
+        });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(`Erro da API OpenAI: ${response.status} - ${JSON.stringify(errorData)}`);
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            return {
+                statusCode: response.status,
+                body: JSON.stringify({ 
+                    error: `Erro da API OpenAI (${response.status}): Ocorreu um problema na chamada à API.`, 
+                    details: errorData 
+                })
+            };
+        }
+
+        const data = await response.json();
+
+        // 5. Retornar a resposta da OpenAI para o frontend
+        return {
+            statusCode: 200,
+            body: JSON.stringify(data),
+        };
+
+    } catch (error) {
+        console.error('Erro na função Netlify:', error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: 'Erro interno do servidor ao processar a requisição.' })
+        };
     }
-
-    const data = await response.json();
-    const content = data.choices[0]?.message?.content;
-
-    if (!content) {
-      throw new Error('Resposta vazia da API OpenAI');
-    }
-
-    const jsonMatch = content.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('Formato de resposta inválido da API OpenAI');
-    }
-
-    const resultado = JSON.parse(jsonMatch[0]);
-    return resultado.ideias;
-  } catch (error) {
-    console.error('Erro ao gerar ideias:', error);
-    throw error;
-  }
-}
+};
