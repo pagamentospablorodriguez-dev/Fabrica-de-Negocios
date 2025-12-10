@@ -1,11 +1,11 @@
 // netlify/functions/gerar-ideias.js
 
-// É preciso usar require('node-fetch') se estiver usando Node.js anterior ao 18. 
+// É preciso usar require('node-fetch') se estiver usando Node.js anterior ao 18.
 // Para Netlify Functions recentes (Node 18+), o fetch nativo funciona. Vamos usar o fetch padrão.
 
 exports.handler = async (event, context) => {
     // 1. Acessar a variável de ambiente SECRETA do Netlify
-    const OPENAI_API_KEY = process.env.A_OPENAI_API_KEY; 
+    const OPENAI_API_KEY = process.env.A_OPENAI_API_KEY;
     const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
     if (!OPENAI_API_KEY) {
@@ -90,14 +90,17 @@ Responda APENAS com um JSON válido no seguinte formato:
             },
             body: JSON.stringify({
                 model: 'gpt-4o-mini',
+                // CORREÇÃO CRUCIAL: Forçar o modelo a retornar JSON
+                response_format: { type: "json_object" }, 
                 messages: [
-                    { 
-                        role: 'system', 
-                        content: 'Você é um especialista em geração de ideias de negócios lucrativas. Sempre responda em português do Brasil com informações práticas e acionáveis.'
+                    {
+                        role: 'system',
+                        // CORREÇÃO: Instrução mais rigorosa para o formato de saída
+                        content: 'Você é um especialista em geração de ideias de negócios lucrativas. Você DEVE responder APENAS com o objeto JSON solicitado, sem texto explicativo, sem Markdown, e sem caracteres extras.'
                     },
-                    { 
-                        role: 'user', 
-                        content: prompt 
+                    {
+                        role: 'user',
+                        content: prompt
                     }
                 ],
                 temperature: 0.8,
@@ -109,9 +112,9 @@ Responda APENAS com um JSON válido no seguinte formato:
             const errorData = await response.json().catch(() => ({}));
             return {
                 statusCode: response.status,
-                body: JSON.stringify({ 
-                    error: `Erro da API OpenAI (${response.status}): Ocorreu um problema na chamada à API.`, 
-                    details: errorData 
+                body: JSON.stringify({
+                    error: `Erro da API OpenAI (${response.status}): Ocorreu um problema na chamada à API.`,
+                    details: errorData
                 })
             };
         }
