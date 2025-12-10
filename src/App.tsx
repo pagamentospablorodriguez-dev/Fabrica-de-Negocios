@@ -1,17 +1,33 @@
 import { useState } from 'react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import FormularioEntrada from './components/FormularioEntrada';
 import ResultadosIdeias from './components/ResultadosIdeias';
 import Loading from './components/Loading';
+import Login from './components/Login';
+import Cadastro from './components/Cadastro';
 import Footer from './components/Footer';
 import { FormData, IdeiaNegocios } from './types';
 import { gerarIdeiasNegocio } from './services/openai';
-import { supabase } from './lib/supabase';
+import { Bolt Database } from './lib/supabase';
 import { AlertCircle } from 'lucide-react';
 
-function App() {
+function AppContent() {
+  const { user, loading: authLoading } = useAuth();
+  const [authView, setAuthView] = useState<'login' | 'cadastro' | null>(null);
   const [loading, setLoading] = useState(false);
   const [ideias, setIdeias] = useState<IdeiaNegocios[] | null>(null);
   const [erro, setErro] = useState<string | null>(null);
+
+  if (authLoading) {
+    return <Loading />;
+  }
+
+  if (!user) {
+    if (authView === 'cadastro') {
+      return <Cadastro onSwitchToLogin={() => setAuthView('login')} />;
+    }
+    return <Login onSwitchToCadastro={() => setAuthView('cadastro')} />;
+  }
 
   const handleSubmit = async (formData: FormData) => {
     setLoading(true);
@@ -21,6 +37,7 @@ function App() {
       const ideiasGeradas = await gerarIdeiasNegocio(formData);
 
       await supabase.from('business_ideas').insert({
+        user_id: user.id,
         area_interesse: formData.areaInteresse,
         tempo_disponivel: formData.tempoDisponivel,
         investimento: formData.investimento,
@@ -84,6 +101,14 @@ function App() {
   }
 
   return <FormularioEntrada onSubmit={handleSubmit} loading={loading} />;
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
 }
 
 export default App;
