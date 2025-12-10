@@ -33,14 +33,31 @@ export async function gerarIdeiasNegocio(formData: FormData): Promise<IdeiaNegoc
       throw new Error('Resposta vazia da API OpenAI. Verifique o prompt ou os logs do Netlify Function.');
     }
 
-    // Lógica de parsing JSON (igual a anterior, pois o formato da OpenAI é mantido)
-    const jsonMatch = content.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('Formato de resposta inválido da API OpenAI. O modelo não retornou um JSON válido.');
-    }
-
-    const resultado = JSON.parse(jsonMatch[0]);
+    let resultado;
+    
+    // Tenta parsear a string content diretamente (melhor com response_format)
+    try {
+        resultado = JSON.parse(content);
+    } catch (e) {
+        // Se falhar o parse direto, tenta o método anterior (em caso de Markdown ou texto extra)
+        const jsonMatch = content.match(/\{[\s\S]*\}/);
+        
+        if (!jsonMatch) {
+            // Se ainda assim não encontrar, dispara o erro original
+            throw new Error(`Formato de resposta inválido da API OpenAI: O modelo não retornou um JSON válido. Conteúdo recebido: ${content.substring(0, 100)}...`);
+        }
+        
+        // Tenta parsear o que foi extraído pela regex
+        try {
+             resultado = JSON.parse(jsonMatch[0]);
+        } catch (e) {
+             throw new Error(`Formato de resposta inválido: Erro ao parsear JSON. Detalhes: ${e.message}`);
+        }
+    }
+    
+    // Retorna a lista de ideias
     return resultado.ideias;
+    
   } catch (error) {
     console.error('Erro ao gerar ideias:', error);
     throw error;
