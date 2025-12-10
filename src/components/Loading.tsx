@@ -60,7 +60,8 @@ export default function Loading() {
           animation: progress 25s ease-in-out;
         }
       `}</style>
+   <Footer />
     </div>
-    <Footer />
+    
   );
 }
