@@ -1,20 +1,31 @@
-import { IdeiaNegocios } from '../types';
+import { IdeiaComId, FormData } from '../types';
 import {
   Sparkles, Target, TrendingUp, Megaphone, Users,
   Calendar, MessageSquare, Video, Code, DollarSign,
-  CheckCircle, Lightbulb, ArrowLeft
+  CheckCircle, Lightbulb, ArrowLeft, Zap, Rocket, Plus
 } from 'lucide-react';
 import { useState } from 'react';
 import BoltIframe from './BoltIframe';
 import Footer from './Footer';
 
 interface ResultadosIdeiasProps {
-  ideias: IdeiaNegocios[];
+  ideias: IdeiaComId[];
+  formData: FormData;
+  sessionId: string;
   onVoltar: () => void;
+  onGerarMais: () => void;
+  loadingNovaIdeia: boolean;
 }
 
-export default function ResultadosIdeias({ ideias, onVoltar }: ResultadosIdeiasProps) {
-  const [ideiaExpandida, setIdeiaExpandida] = useState<number | null>(null);
+export default function ResultadosIdeias({ 
+  ideias, 
+  formData,
+  sessionId,
+  onVoltar, 
+  onGerarMais,
+  loadingNovaIdeia
+}: ResultadosIdeiasProps) {
+  const [ideiaExpandida, setIdeiaExpandida] = useState<number | null>(0);
   const [mostrarBolt, setMostrarBolt] = useState(false);
   const [promptSelecionado, setPromptSelecionado] = useState('');
 
@@ -48,18 +59,19 @@ export default function ResultadosIdeias({ ideias, onVoltar }: ResultadosIdeiasP
               <img src="/fnl.png" alt="Logo" className="h-52 w-auto" />
             </div>
             <h1 className="text-5xl font-bold text-white mb-4">
-              Suas 10 Ideias Milionárias Estão Prontas!
+              {ideias.length === 1 ? 'Sua Ideia Está Pronta!' : `${ideias.length} Ideias Geradas!`}
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-              Cada ideia vem com tudo que você precisa para começar HOJE.
-              Escolha uma e comece a construir seu negócio agora mesmo!
+              {ideias.length === 1 
+                ? 'Sua ideia completa está pronta. Leia tudo com atenção e, se quiser mais opções, gere outra ideia!' 
+                : 'Você já tem várias opções! Escolha a que mais te empolga ou continue gerando mais ideias.'}
             </p>
           </div>
 
           <div className="space-y-6">
             {ideias.map((ideia, index) => (
               <div
-                key={index}
+                key={ideia.id}
                 className="bg-luxury-dark rounded-2xl luxury-shadow-lg luxury-border overflow-hidden transition-all hover:luxury-shadow-xl"
               >
                 <div
@@ -158,7 +170,7 @@ export default function ResultadosIdeias({ ideias, onVoltar }: ResultadosIdeiasP
                         <Code className="w-6 h-6 mr-3" />
                         <h3 className="text-xl font-bold">Prompt para Criar no Bolt</h3>
                       </div>
-                      <div className="bg-black/20 rounded-lg p-4 backdrop-blur-sm mb-4">
+                      <div className="bg-black/20 rounded-lg p-4 backdrop-blur-sm mb-4 max-h-64 overflow-y-auto">
                         <p className="text-sm leading-relaxed whitespace-pre-wrap">{ideia.promptBolt}</p>
                       </div>
                       <button
@@ -173,24 +185,93 @@ export default function ResultadosIdeias({ ideias, onVoltar }: ResultadosIdeiasP
                 )}
               </div>
             ))}
+
+            {loadingNovaIdeia && (
+              <div className="bg-luxury-dark rounded-2xl luxury-shadow-lg luxury-border p-8">
+                <div className="flex items-center justify-center mb-6">
+                  <div className="relative">
+                    <div className="w-16 h-16 border-4 border-luxury-gold/20 border-t-luxury-gold rounded-full animate-spin"></div>
+                    <Sparkles className="w-8 h-8 text-luxury-gold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+                  </div>
+                </div>
+                <h3 className="text-2xl font-bold text-white text-center mb-2">
+                  Gerando Mais Uma Ideia...
+                </h3>
+                <p className="text-gray-400 text-center">
+                  Criando uma nova oportunidade de negócio para você
+                </p>
+                <div className="w-full bg-luxury-darker rounded-full h-2 overflow-hidden border luxury-border mt-6">
+                  <div className="gold-gradient h-full rounded-full animate-progress"></div>
+                </div>
+              </div>
+            )}
           </div>
 
-          <div className="mt-12 bg-luxury-dark rounded-xl p-8 luxury-border text-center luxury-shadow">
-            <Sparkles className="w-12 h-12 text-luxury-gold mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-white mb-3">
-              Agora é com você!
-            </h3>
-            <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-6">
-              Você tem 10 ideias completas e prontas para começar. Escolha a que mais te empolga,
-              siga o plano passo a passo e comece a construir seu negócio HOJE mesmo.
-            </p>
-            <p className="text-luxury-gold font-semibold">
-              Lembre-se: A melhor ideia é aquela que você coloca em prática!
-            </p>
+          {!loadingNovaIdeia && (
+            <div className="mt-8">
+              <button
+                onClick={onGerarMais}
+                className="w-full gold-gradient text-luxury-black font-semibold py-4 px-6 rounded-lg hover:opacity-90 transition-all luxury-shadow-lg flex items-center justify-center text-lg"
+              >
+                <Plus className="w-6 h-6 mr-2" />
+                Gerar Mais Uma Ideia
+              </button>
+            </div>
+          )}
+
+          <div className="mt-12 bg-gradient-to-r from-luxury-dark to-luxury-darker rounded-2xl p-8 luxury-border luxury-shadow-lg">
+            <div className="flex items-start gap-6">
+              <div className="flex-shrink-0">
+                <div className="w-16 h-16 gold-gradient rounded-2xl flex items-center justify-center">
+                  <Rocket className="w-8 h-8 text-luxury-black" />
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-white mb-3">
+                  Hora de Colocar em Prática!
+                </h3>
+                <p className="text-lg text-gray-300 mb-4 leading-relaxed">
+                  Você tem {ideias.length} {ideias.length === 1 ? 'ideia completa' : 'ideias completas'} com tudo que precisa para começar. 
+                  <strong className="text-luxury-gold"> Não fique preso no planejamento!</strong> Escolha a ideia que mais te empolga e comece AGORA.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-luxury-black/50 rounded-lg p-4 border border-luxury-gold/20">
+                    <Zap className="w-6 h-6 text-luxury-gold mb-2" />
+                    <h4 className="font-semibold text-white mb-1">Ação Imediata</h4>
+                    <p className="text-sm text-gray-400">Execute os primeiros passos hoje mesmo</p>
+                  </div>
+                  <div className="bg-luxury-black/50 rounded-lg p-4 border border-luxury-gold/20">
+                    <Target className="w-6 h-6 text-luxury-gold mb-2" />
+                    <h4 className="font-semibold text-white mb-1">Foco Total</h4>
+                    <p className="text-sm text-gray-400">Escolha UMA ideia e dedique-se 100%</p>
+                  </div>
+                  <div className="bg-luxury-black/50 rounded-lg p-4 border border-luxury-gold/20">
+                    <TrendingUp className="w-6 h-6 text-luxury-gold mb-2" />
+                    <h4 className="font-semibold text-white mb-1">Constância</h4>
+                    <p className="text-sm text-gray-400">Trabalhe consistentemente todos os dias</p>
+                  </div>
+                </div>
+                <div className="mt-6 p-4 bg-luxury-gold/10 rounded-lg border border-luxury-gold/30">
+                  <p className="text-luxury-gold font-semibold text-center">
+                    Lembre-se: A melhor ideia é aquela que você EXECUTA. O sucesso vem da ação, não do planejamento perfeito!
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <Footer />
+
+      <style>{`
+        @keyframes progress {
+          0% { width: 0%; }
+          100% { width: 100%; }
+        }
+        .animate-progress {
+          animation: progress 25s ease-in-out;
+        }
+      `}</style>
     </>
   );
 }
