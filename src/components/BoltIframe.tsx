@@ -34,7 +34,7 @@ export default function BoltIframe({ prompt, onVoltar }: BoltIframeProps) {
 
           <div className="text-center mb-12">
             <div className="flex justify-center mb-6">
-              <img src="/fnl.png" alt="Logo" className="h-52 w-auto luxury-shadow-lg" />
+              <img src="/fnl.png" alt="Logo" className="h-52 w-auto" />
             </div>
             <h1 className="text-5xl font-bold text-white mb-4">
               Como Criar Seu Projeto no Bolt.new
