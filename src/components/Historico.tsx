@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, Calendar, Trash2, Eye } from 'lucide-react';
-// CORREÇÃO 1: Mudar a sintaxe de importação incorreta
+// Importação CORRETA (nome e caminho)
 import { supabase } from '../lib/supabase';
 import { FormData, IdeiaComId } from '../types';
 import Footer from './Footer';
-import Loading from './Loading';
+import Loading from './components/Loading'; // Assumindo que o Loading está em src/components/Loading.tsx
 
 interface SessaoComIdeias {
   sessionId: string;
@@ -28,10 +28,11 @@ export default function Historico({ onVoltar, onVerIdeias }: HistoricoProps) {
 
   const carregarHistorico = async () => {
     try {
+      // Verifica a sessão
       const { data: { user } } = await supabase.auth.getSession();
       if (!user) return;
 
-      // CORREÇÃO 2: Mudar 'Bolt Database' para 'supabase'
+      // Usa a instância 'supabase' (CORREÇÃO DE SINTAXE)
       const { data, error } = await supabase
         .from('business_ideas')
         .select('*')
@@ -92,7 +93,7 @@ export default function Historico({ onVoltar, onVerIdeias }: HistoricoProps) {
     if (!confirm('Tem certeza que deseja excluir todas as ideias desta sessão?')) return;
 
     try {
-      // CORREÇÃO 3: Mudar 'Bolt Database' para 'supabase'
+      // Usa a instância 'supabase' (CORREÇÃO DE SINTAXE)
       const { error } = await supabase
         .from('business_ideas')
         .delete()
@@ -139,7 +140,7 @@ export default function Historico({ onVoltar, onVerIdeias }: HistoricoProps) {
               </p>
               <button
                 onClick={onVoltar}
-                className="w-full gold-gradient text-luxury-black font-semibold py-3 px-6 rounded-lg hover:opacity-90 transition-all"
+                className="gold-gradient text-luxury-black font-semibold py-3 px-6 rounded-lg hover:opacity-90 transition-all"
               >
                 Gerar Primeira Ideia
               </button>
@@ -210,7 +211,8 @@ export default function Historico({ onVoltar, onVerIdeias }: HistoricoProps) {
             </div>
           )}
         </div>
-        <Footer />
+      </div>
+      <Footer />
     </>
   );
 }
