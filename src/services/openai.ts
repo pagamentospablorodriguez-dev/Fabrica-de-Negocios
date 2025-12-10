@@ -1,11 +1,11 @@
 import { FormData, IdeiaNegocios } from '../types';
 
-const o_OPENAI_API_KEY = import.meta.env.OPENAI_API_KEY;
+const OPENAI_API_KEY = import.meta.env.A_OPENAI_API_KEY;
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 export async function gerarIdeiasNegocio(formData: FormData): Promise<IdeiaNegocios[]> {
-  if (!o_OPENAI_API_KEY || OPENAI_API_KEY === 'sua_chave_api_openai_aqui') {
-    throw new Error('Chave da API OpenAI não configurada. Por favor, configure OPENAI_API_KEY no arquivo .env');
+  if (!OPENAI_API_KEY || OPENAI_API_KEY === 'sua_chave_api_openai_aqui') {
+    throw new Error('Chave da API OpenAI não configurada. Por favor, configure VITE_OPENAI_API_KEY no arquivo .env');
   }
 
   const prompt = `Você é um especialista em negócios e empreendedorismo. Com base nas informações abaixo, gere EXATAMENTE 10 ideias de negócios COMPLETAS e PRONTAS para lançar:
