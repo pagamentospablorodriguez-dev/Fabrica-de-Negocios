@@ -14,10 +14,10 @@ export default function Loading() {
         </div>
 
         <h2 className="text-4xl font-bold text-white mb-4">
-          Criando Suas Ideias Milionárias...
+          Criando Sua Ideia Milionária...
         </h2>
         <p className="text-xl text-gray-400 mb-12">
-          Nossa IA está analisando suas informações e gerando 10 ideias de negócios completas e personalizadas para você.
+          Nossa IA está analisando suas informações e gerando uma ideia de negócio completa e personalizada para você.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
@@ -25,7 +25,7 @@ export default function Loading() {
             { icon: <Target className="w-6 h-6" />, text: 'Analisando oportunidades de mercado' },
             { icon: <TrendingUp className="w-6 h-6" />, text: 'Criando estratégias de crescimento' },
             { icon: <Zap className="w-6 h-6" />, text: 'Gerando planos de monetização' },
-            { icon: <Sparkles className="w-6 h-6" />, text: 'Preparando roadmaps detalhados' },
+            { icon: <Sparkles className="w-6 h-6" />, text: 'Preparando roadmap detalhado' },
           ].map((item, index) => (
             <div
               key={index}
@@ -42,7 +42,7 @@ export default function Loading() {
 
         <div className="bg-luxury-dark rounded-xl p-6 luxury-border luxury-shadow">
           <p className="text-gray-400 mb-4">
-            Isso pode levar de 30 a 60 segundos. Por favor, aguarde...
+            Isso pode levar de 20 a 30 segundos. Por favor, aguarde...
           </p>
           <div className="w-full bg-luxury-darker rounded-full h-2 overflow-hidden border luxury-border">
             <div className="gold-gradient h-full rounded-full animate-progress"></div>
@@ -56,7 +56,7 @@ export default function Loading() {
           100% { width: 100%; }
         }
         .animate-progress {
-          animation: progress 45s ease-in-out;
+          animation: progress 25s ease-in-out;
         }
       `}</style>
     </div>
