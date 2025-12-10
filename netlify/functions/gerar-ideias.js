@@ -28,7 +28,7 @@ exports.handler = async (event, context) => {
     }
 
     // 3. Reconstruir o Prompt COMPLETO com base no formData recebido
-    const prompt = `Você é um especialista em negócios e empreendedorismo. Com base nas informações abaixo, gere EXATAMENTE 10 ideias de negócios COMPLETAS e PRONTAS para lançar:
+    const prompt = `Você é um especialista em negócios e empreendedorismo. Com base nas informações abaixo, gere EXATAMENTE 3 ideias de negócios COMPLETAS e PRONTAS para lançar:
 
 Área de Interesse: ${formData.areaInteresse}
 Tempo Disponível: ${formData.tempoDisponivel}
