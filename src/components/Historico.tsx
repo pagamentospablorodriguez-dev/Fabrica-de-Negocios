@@ -4,7 +4,7 @@ import { ArrowLeft, Calendar, Trash2, Eye } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { FormData, IdeiaComId } from '../types';
 import Footer from './Footer';
-import Loading from './components/Loading'; // Assumindo que o Loading está em src/components/Loading.tsx
+import Loading from './Loading';
 
 interface SessaoComIdeias {
   sessionId: string;
