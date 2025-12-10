@@ -85,7 +85,7 @@ export default function ResultadosIdeias({ 
                           {index + 1}
                         </span>
                         <h2 className="text-2xl font-bold text-white">{ideia.nomeMarca}</h2>
-                      </div>
+                    </div>
                       <p className="text-lg text-gray-300 ml-14 mb-4">{ideia.promessa}</p>
                     </div>
                     <button className="ml-4 p-2 hover:bg-luxury-black rounded-lg transition-colors">
@@ -107,7 +107,6 @@ export default function ResultadosIdeias({ 
                       <SecaoIdeia
                         icon={<Target className="w-5 h-5 text-luxury-gold" />}
                         titulo="Análise de Viabilidade"
-                        // Passa o objeto completo (se for um objeto)
                         conteudo={ideia.analiseViabilidade} 
                       />
 
@@ -162,7 +161,6 @@ export default function ResultadosIdeias({ 
                       <SecaoIdeia
                         icon={<TrendingUp className="w-5 h-5 text-luxury-gold" />}
                         titulo="Metas Financeiras"
-                        // Passa o objeto completo (se for um objeto)
                         conteudo={ideia.metasFinanceiras}
                       />
                     </div>
@@ -300,42 +298,28 @@ function SecaoIdeia({ icon, titulo, conteudo }: SecaoIdeiaProps) {
 
   // 2. Formata o conteúdo se for um Objeto
   if (typeof parsedContent === 'object' && parsedContent !== null) {
-    // Trata o objeto de Análise de Viabilidade {prós, contras}
-    if (parsedContent.prós && parsedContent.contras) {
-      conteudoFormatado = `
-**Prós:**
-${parsedContent.prós}
+    // Formata o objeto como uma lista de chaves/valores
+    conteudoFormatado = Object.entries(parsedContent).map(([key, value]) => {
+      // Converte a chave (camelCase ou 3Meses) para um título legível
+      const formattedKey = key
+        .replace(/([a-z])([A-Z])/g, '$1 $2')
+        .toUpperCase()
+        .replace('3MESES', '3 MESES')
+        .replace('6MESES', '6 MESES')
+        .replace('12MESES', '12 MESES');
+      
+      // Garante que o valor também seja uma string (evita [object Object])
+      let formattedValue = String(value);
 
-**Contras:**
-${parsedContent.contras}
-      `.trim();
-    } 
-    // Trata o objeto de Metas Financeiras {3Meses, 6Meses, 12Meses}
-    else if (parsedContent['3Meses'] && parsedContent['6Meses'] && parsedContent['12Meses']) {
-      conteudoFormatado = `
-**Metas 3 Meses:**
-${parsedContent['3Meses']}
+      return `**${formattedKey}:**\n${formattedValue}`;
+    }).join('\n\n').trim();
 
-**Metas 6 Meses:**
-${parsedContent['6Meses']}
-
-**Metas 12 Meses:**
-${parsedContent['12Meses']}
-      `.trim();
-    }
-    // Trata outros objetos que possam ter vindo (ex: scriptAnuncios com chave 'anuncio')
-    else {
-      // Formata o objeto como uma lista de chaves/valores
-      conteudoFormatado = Object.entries(parsedContent).map(([key, value]) => 
-        `**${key.replace(/([a-z])([A-Z])/g, '$1 $2').toUpperCase()}:**\n${value}`
-      ).join('\n\n').trim();
-    }
   } 
   // 3. Se for string simples, usa como está
   else {
     conteudoFormatado = String(parsedContent || 'Conteúdo não fornecido.');
   }
-  
+  
   return (
     <div className="bg-luxury-dark rounded-xl p-5 luxury-border luxury-shadow">
       <div className="flex items-center mb-3">
