@@ -95,7 +95,7 @@ export default function Historico({ onVoltar, onVerIdeias }: HistoricoProps) {
     if (!confirm('Tem certeza que deseja excluir todas as ideias desta sessão?')) return;
 
     try {
-      const { error } = await Bolt Database
+      const { error } = await supabase
         .from('business_ideas')
         .delete()
         .eq('session_id', sessionId);
