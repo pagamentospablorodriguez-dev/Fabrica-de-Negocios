@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, Calendar, Trash2, Eye } from 'lucide-react';
-import { Bolt Database } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { FormData, IdeiaComId } from '../types';
 import Footer from './Footer';
