@@ -9,7 +9,7 @@ import Cadastro from './components/Cadastro';
 import Footer from './components/Footer';
 import { FormData, IdeiaComId } from './types';
 import { gerarIdeiaNegocio } from './services/openai';
-import { Bolt Database } from './lib/supabase';
+import { supabase } from '../lib/supabase';
 import { AlertCircle } from 'lucide-react';
 
 type View = 'form' | 'results' | 'historico';
