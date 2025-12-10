@@ -23,8 +23,14 @@ export interface IdeiaNegocios {
   metasFinanceiras: string;
 }
 
-export interface ResultadoGerado {
+export interface IdeiaComId extends IdeiaNegocios {
   id: string;
-  ideias: IdeiaNegocios[];
+  createdAt: string;
+}
+
+export interface SessaoGeracao {
+  sessionId: string;
+  formData: FormData;
+  ideias: IdeiaComId[];
   createdAt: string;
 }
