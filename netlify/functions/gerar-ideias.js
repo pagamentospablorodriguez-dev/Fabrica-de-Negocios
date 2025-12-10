@@ -53,23 +53,21 @@ IMPORTANTE:
 
 Responda APENAS com um JSON válido no seguinte formato:
 {
-  "ideias": [
-    {
-      "nomeMarca": "...",
-      "promessa": "...",
-      "analiseViabilidade": "...",
-      "comoViralizar": "...",
-      "publicoAlvo": "...",
-      "estrategiaMarketing": "...",
-      "roadmapLancamento": "...",
-      "scriptAnuncios": "...",
-      "scriptConteudoOrganico": "...",
-      "promptBolt": "...",
-      "formasMonetizacao": "...",
-      "primeirosPassos": "...",
-      "metasFinanceiras": "..."
-    }
-  ]
+  "ideia": {
+    "nomeMarca": "...",
+    "promessa": "...",
+    "analiseViabilidade": "...",
+    "comoViralizar": "...",
+    "publicoAlvo": "...",
+    "estrategiaMarketing": "...",
+    "roadmapLancamento": "...",
+    "scriptAnuncios": "...",
+    "scriptConteudoOrganico": "...",
+    "promptBolt": "...",
+    "formasMonetizacao": "...",
+    "primeirosPassos": "...",
+    "metasFinanceiras": "..."
+  }
 }`;
 
 
