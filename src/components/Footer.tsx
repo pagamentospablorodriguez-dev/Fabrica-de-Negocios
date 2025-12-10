@@ -28,10 +28,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-luxury-gold font-semibold mb-4 flex items-center">
-              <Mail className="w-4 h-4 mr-2" />
-              Contato
-            </h3>
+           
             <ul className="space-y-2 text-gray-400">
               <li className="flex items-center">
                 <Globe className="w-4 h-4 mr-2" />
@@ -41,7 +38,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t luxury-border pt-8 text-center text-gray-400">
+        <div className="border-t pt-8 text-center text-gray-400">
           <p>&copy; {new Date().getFullYear()} Fábrica de Negócios. Todos os direitos reservados.</p>
         </div>
       </div>
