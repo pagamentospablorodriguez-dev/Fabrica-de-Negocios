@@ -36,7 +36,7 @@ export default function FormularioEntrada({ onSubmit, loading }: FormularioEntra
         <div className="max-w-4xl mx-auto px-4 py-16">
           <div className="text-center mb-12">
             <div className="flex justify-center mb-6">
-              <img src="/fnl.png" alt="Fábrica de Negócios Logo" className="h-52 w-auto luxury-shadow-lg" />
+              <img src="/fnl.png" alt="Fábrica de Negócios Logo" className="h-52 w-auto" />
             </div>
             <h1 className="text-5xl font-bold text-white mb-4">
               Fábrica de Negócios
