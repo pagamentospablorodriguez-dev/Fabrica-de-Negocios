@@ -20,65 +20,33 @@ exports.handler = async (event, context) => {
         return { statusCode: 400, body: 'Formato JSON da requisição inválido.' };
     }
 
-    const randomSeed = Math.random().toString(36).substring(7);
+    const randomVariation = Math.floor(Math.random() * 1000);
 
-    const prompt = `Gere EXATAMENTE 1 ideia de negócio ÚNICA, DIFERENTE e VIÁVEL baseada neste perfil:
+    const prompt = `Você é um especialista em negócios. Com base nas informações abaixo, gere EXATAMENTE 1 ideia de negócio COMPLETA e PRONTA para lançar. Variação: ${randomVariation}
 
-PERFIL:
-- Área: ${formData.areaInteresse}
-- Tempo: ${formData.tempoDisponivel}
-- Investimento: ${formData.investimento}
-- Tipo: ${formData.tipoNegocio}
-- Habilidades: ${formData.habilidades}
-- Objetivo: ${formData.objetivoFinanceiro}
+Área de Interesse: ${formData.areaInteresse}
+Tempo Disponível: ${formData.tempoDisponivel}
+Investimento Disponível: ${formData.investimento}
+Tipo de Negócio: ${formData.tipoNegocio}
+Habilidades: ${formData.habilidades}
+Objetivo Financeiro: ${formData.objetivoFinanceiro}
 
-VARIAÇÃO: ${randomSeed}
+Para esta ideia, forneça:
+1. Nome da Marca (criativo e profissional)
+2. Promessa (proposta de valor única)
+3. Análise de Viabilidade (prós, contras, potencial)
+4. Como Viralizar (estratégias específicas)
+5. Público-Alvo (definição clara)
+6. Estratégia de Marketing (plano prático)
+7. Roadmap de Lançamento (cronograma 90 dias)
+8. Script de Anúncios (2 exemplos prontos)
+9. Script de Conteúdo Orgânico (3 ideias)
+10. Prompt para Bolt (prompt técnico e detalhado)
+11. Formas de Monetização (3+ formas)
+12. Primeiros Passos (ações concretas hoje)
+13. Metas Financeiras (projeção 3, 6, 12 meses)
 
-⚠️ CRÍTICO: Gere uma ideia TOTALMENTE DIFERENTE de qualquer outra anterior. Seja criativo e inovador!
-
-ESTRUTURA DA RESPOSTA (seja conciso mas detalhado):
-
-1. NOME DA MARCA - Nome único e memorável
-
-2. PROMESSA - Uma frase impactante com o principal benefício
-
-3. ANÁLISE DE VIABILIDADE - Organize assim:
-✅ 4 PONTOS FORTES (por que funciona?)
-⚠️ 3 DESAFIOS + COMO RESOLVER CADA UM
-💰 Potencial de lucro e margem esperada
-
-4. COMO VIRALIZAR - 5 estratégias específicas com exemplos práticos
-
-5. PÚBLICO-ALVO - Descreva a persona principal em detalhes (idade, profissão, dores, onde fica online)
-
-6. ESTRATÉGIA DE MARKETING - Organize por FASES:
-📱 FASE 1 (30 dias): Ações específicas por canal
-📈 FASE 2 (31-90 dias): Estratégia de crescimento
-🚀 FASE 3 (3-12 meses): Escala
-
-7. ROADMAP DE LANÇAMENTO - Passo a passo realista dos primeiros 90 dias com tarefas específicas por semana
-
-8. SCRIPTS DE ANÚNCIOS - 2 exemplos completos (não 3) com título, texto e CTA
-
-9. CONTEÚDO ORGÂNICO - 3 ideias de posts (não 5) com tema, hook e estrutura
-
-10. PROMPT PARA BOLT - Um prompt TÉCNICO e DETALHADO explicando design, funcionalidades, tecnologias e páginas
-
-11. FORMAS DE MONETIZAÇÃO - 4 estratégias (não 5) com como implementar e receita estimada
-
-12. PRIMEIROS PASSOS - Checklist prático de tarefas para começar hoje e esta semana
-
-13. METAS FINANCEIRAS - Projeção para 3, 6 e 12 meses com receita esperada, custos e lucro
-
-REGRAS:
-✅ Seja ESPECÍFICO e PRÁTICO em tudo
-✅ Use exemplos reais e números
-✅ Ideias devem ser VIÁVEIS com o perfil do usuário
-✅ Foco em resultados nos primeiros 90 dias
-✅ Pense fora da caixa - EVITE ideias genéricas/batidas
-✅ Cada resposta deve ser DIFERENTE da anterior
-
-Responda APENAS com este JSON:
+Seja extremamente específico, prático e viável. Responda APENAS com um JSON válido:
 {
   "ideia": {
     "nomeMarca": "...",
@@ -110,15 +78,15 @@ Responda APENAS com este JSON:
                 messages: [
                     {
                         role: 'system',
-                        content: 'Você é um especialista em empreendedorismo. Responda APENAS com JSON válido, sem explicações extras. Seja direto, específico e inovador. Cada ideia deve ser ÚNICA e DIFERENTE das anteriores.'
+                        content: 'Você é um especialista em geração de ideias de negócios lucrativas e escaláveis. Responda APENAS com o JSON solicitado, sem texto explicativo ou Markdown. Seja extremamente detalhado e específico em cada seção.'
                     },
                     {
                         role: 'user',
                         content: prompt
                     }
                 ],
-                temperature: 0.95,
-                max_tokens: 14000,
+                temperature: 0.9,
+                max_tokens: 12000,
             }),
         });
 
