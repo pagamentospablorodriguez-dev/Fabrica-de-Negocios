@@ -1,18 +1,14 @@
-// src/components/ResultadosIdeias.tsx
-
 import { IdeiaComId, FormData } from '../types';
 import {
   Sparkles, Target, TrendingUp, Megaphone, Users,
   Calendar, MessageSquare, Video, Code, DollarSign,
   CheckCircle, Lightbulb, ArrowLeft, Zap, Rocket, Plus
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import BoltIframe from './BoltIframe';
 import Footer from './Footer';
 
-// Passo 1: Importar os componentes que vamos criar.
-// Por enquanto, eles não existem, então seu editor pode acusar um erro.
-// Vamos criá-los nos próximos passos.
+// 1. IMPORTAÇÕES DOS NOVOS COMPONENTES
 import UpgradePro from './UpgradePro';
 import SocioAI from './SocioAI';
 
@@ -37,9 +33,9 @@ export default function ResultadosIdeias({
   const [mostrarBolt, setMostrarBolt] = useState(false);
   const [promptSelecionado, setPromptSelecionado] = useState('');
 
-  // Passo 2: Simular o status do plano do usuário.
-  // No futuro, isso virá do seu hook de autenticação (useAuth ou useProfile).
-  // Mude para `true` para ver como ficaria a tela do Sócio AI.
+  // 2. VARIÁVEL PARA CONTROLAR A EXIBIÇÃO
+  // Mude para `true` para ver o Sócio AI.
+  // Mude para `false` para ver o card de Upgrade.
   const isPro = false; 
 
   const toggleIdeia = (index: number) => {
@@ -146,8 +142,7 @@ export default function ResultadosIdeias({
                       </button>
                     </div>
 
-                    {/* --- INÍCIO DA ALTERAÇÃO --- */}
-                    {/* Passo 3: Renderização condicional do Sócio AI ou do Upgrade */}
+                    {/* 3. LÓGICA QUE MOSTRA O SÓCIO AI OU O UPGRADE */}
                     <div className="mt-8">
                       {isPro ? (
                         <SocioAI ideia={ideia} />
@@ -155,7 +150,6 @@ export default function ResultadosIdeias({
                         <UpgradePro />
                       )}
                     </div>
-                    {/* --- FIM DA ALTERAÇÃO --- */}
 
                   </div>
                 )}
