@@ -4,7 +4,7 @@ import { Zap, Gem, ShieldCheck } from 'lucide-react';
 
 export default function UpgradePro() {
   // IMPORTANTE: Substitua pela sua URL de checkout
-  const checkoutUrl = 'SEU_LINK_DE_CHECKOUT_AQUI';
+  const checkoutUrl = 'https://pay.kirvano.com/ed4fb210-5220-4da3-8ed4-0d1bb506c1b2';
 
   return (
     <div className="mt-8 bg-luxury-dark rounded-2xl luxury-shadow-lg luxury-border p-6 md:p-8">
