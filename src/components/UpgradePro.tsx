@@ -10,7 +10,7 @@ export default function UpgradePro() {
     <div className="mt-8 bg-luxury-dark rounded-2xl luxury-shadow-lg luxury-border p-6 md:p-8">
       <div className="text-center mb-6">
         <h3 className="text-2xl font-bold text-white">
-          Gostou da conversa? Leve sua ideia para o <span className="gold-gradient text-transparent bg-clip-text" style="color: white;">próximo nível.</span>
+          Gostou da conversa? Leve sua ideia para o <span className="gold-gradient text-transparent bg-clip-text text-white">próximo nível.</span>
         </h3>
         <p className="text-gray-400 mt-2">Desbloqueie o Plano PRO e acelere seus resultados.</p>
       </div>
