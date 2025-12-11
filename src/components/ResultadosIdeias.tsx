@@ -36,7 +36,7 @@ export default function ResultadosIdeias({
   // 2. VARIÁVEL PARA CONTROLAR A EXIBIÇÃO
   // Mude para `true` para ver o Sócio AI.
   // Mude para `false` para ver o card de Upgrade.
-  const isPro = false; 
+  const isPro = true; 
 
   const toggleIdeia = (index: number) => {
     setIdeiaExpandida(ideiaExpandida === index ? null : index);
