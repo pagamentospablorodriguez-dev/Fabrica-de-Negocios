@@ -7,8 +7,6 @@ import {
 import { useState } from 'react';
 import BoltIframe from './BoltIframe';
 import Footer from './Footer';
-
-// 1. IMPORTAÇÕES DOS NOVOS COMPONENTES
 import UpgradePro from './UpgradePro';
 import SocioAI from './SocioAI';
 
@@ -33,10 +31,9 @@ export default function ResultadosIdeias({
   const [mostrarBolt, setMostrarBolt] = useState(false);
   const [promptSelecionado, setPromptSelecionado] = useState('');
 
-  // 2. VARIÁVEL PARA CONTROLAR A EXIBIÇÃO
-  // Mude para `true` para ver o Sócio AI.
-  // Mude para `false` para ver o card de Upgrade.
-  const isPro = true; 
+  // No futuro, isso virá do seu hook de autenticação.
+  // `false` faz o card de upgrade aparecer. Mude para `true` para escondê-lo.
+  const isPro = false; 
 
   const toggleIdeia = (index: number) => {
     setIdeiaExpandida(ideiaExpandida === index ? null : index);
@@ -71,9 +68,7 @@ export default function ResultadosIdeias({
               {ideias.length === 1 ? 'Sua Ideia Está Pronta!' : `${ideias.length} Ideias Geradas!`}
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-              {ideias.length === 1 
-                ? 'Sua ideia completa está pronta. Leia tudo com atenção e, se quiser mais opções, gere outra ideia!' 
-                : 'Você já tem várias opções! Escolha a que mais te empolga ou continue gerando mais ideias.'}
+              Analise sua ideia, converse com seu Sócio AI e, se não gostar, gere uma nova!
             </p>
           </div>
 
@@ -141,15 +136,12 @@ export default function ResultadosIdeias({
                         Ver Como Criar no Bolt.new
                       </button>
                     </div>
+                    
+                    {/* Sócio AI aparece para todos */}
+                    <SocioAI ideia={ideia} />
 
-                    {/* 3. LÓGICA QUE MOSTRA O SÓCIO AI OU O UPGRADE */}
-                    <div className="mt-8">
-                      {isPro ? (
-                        <SocioAI ideia={ideia} />
-                      ) : (
-                        <UpgradePro />
-                      )}
-                    </div>
+                    {/* Card de Upgrade só aparece se o usuário NÃO for PRO */}
+                    {!isPro && <UpgradePro />}
 
                   </div>
                 )}
