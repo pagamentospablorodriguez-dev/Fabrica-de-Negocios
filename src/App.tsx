@@ -1,3 +1,5 @@
+// src/App.tsx
+
 import { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import FormularioEntrada from './components/FormularioEntrada';
@@ -36,6 +38,7 @@ function AppContent() {
     return <Login onSwitchToCadastro={() => setAuthView('cadastro')} />;
   }
 
+  // --- INÍCIO DA ALTERAÇÃO ---
   const gerarNovaIdeia = async (dados: FormData, isFirst: boolean = true) => {
     if (isFirst) {
       setLoading(true);
@@ -45,7 +48,17 @@ function AppContent() {
     setErro(null);
 
     try {
-      const ideiaGerada = await gerarIdeiaNegocio(dados);
+      // Mapeia os nomes das ideias já geradas nesta sessão para enviar como contexto.
+      const nomesIdeiasAnteriores = ideias.map(ideia => ideia.nomeMarca);
+      
+      // Adiciona as ideias anteriores aos dados que serão enviados para a função Netlify.
+      const dadosComContexto = {
+        ...dados,
+        ideiasAnteriores: nomesIdeiasAnteriores,
+      };
+
+      // Chama a função para gerar a ideia, agora com o contexto.
+      const ideiaGerada = await gerarIdeiaNegocio(dadosComContexto);
 
       const novoSessionId = sessionId || crypto.randomUUID();
       if (!sessionId) {
@@ -104,16 +117,18 @@ function AppContent() {
       setLoadingNovaIdeia(false);
     }
   };
+  // --- FIM DA ALTERAÇÃO ---
 
   const handleSubmit = async (dados: FormData) => {
     setFormData(dados);
-    setIdeias([]);
-    setSessionId('');
+    setIdeias([]); // Reseta as ideias para uma nova sessão de geração
+    setSessionId(''); // Reseta o ID da sessão
     await gerarNovaIdeia(dados, true);
   };
 
   const handleGerarMais = async () => {
     if (formData) {
+      // Reutiliza o formData, mas a função `gerarNovaIdeia` vai ler o estado `ideias` atualizado
       await gerarNovaIdeia(formData, false);
     }
   };
